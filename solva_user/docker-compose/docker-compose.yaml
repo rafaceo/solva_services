@@ -1,0 +1,52 @@
+version: '3.1'
+
+services:
+  solva-user:
+    image: 'solva-user-iso'
+    container_name: 'solva-user-container'
+    depends_on:
+      - user-db
+    ports:
+      - "1001:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-db:5432/user
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=user
+      - SPRING_JPA_SHOW_SQL=true
+      - SERVER_PORT=8081
+
+  solva-bank:
+    image: 'solva-bank-iso'
+    container_name: 'solva-bank-container'
+    depends_on:
+      - bank-db
+      - solva-user
+    ports:
+      - "1000:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://bank-db:5432/raf
+      - SPRING_DATASOURCE_USERNAME=raf
+      - SPRING_DATASOURCE_PASSWORD=raf
+      - SPRING_JPA_SHOW_SQL=true
+      - SERVER_PORT=8080
+      - USER_FEIGN_URL=http://solva-user:8081
+
+  user-db:
+    image: 'postgres'
+    container_name: 'solvadb'
+    ports:
+      - "2345:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_DB=user
+
+  bank-db:
+    image: 'postgres'
+    container_name: 'bankdb'
+    ports:
+      - "2346:5432"
+    environment:
+      - POSTGRES_USER=raf
+      - POSTGRES_PASSWORD=raf
+      - POSTGRES_DB=raf
