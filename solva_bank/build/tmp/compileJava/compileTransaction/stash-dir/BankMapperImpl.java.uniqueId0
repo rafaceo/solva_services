@@ -1,0 +1,51 @@
+package com.example.solva_bank.mapper;
+
+import com.example.solva_bank.Dto.BankDto;
+import com.example.solva_bank.entity.BankEntity;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2024-08-09T05:24:39+0600",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.8.jar, environment: Java 21.0.1 (Eclipse Adoptium)"
+)
+@Component
+public class BankMapperImpl implements BankMapper {
+
+    @Override
+    public BankDto toBankDto(BankEntity bankEntity) {
+        if ( bankEntity == null ) {
+            return null;
+        }
+
+        BankDto bankDto = new BankDto();
+
+        bankDto.setId( bankEntity.getId() );
+        bankDto.setCategory( bankEntity.getCategory() );
+        bankDto.setLimitUSD( bankEntity.getLimitUSD() );
+        bankDto.setTransaction( bankEntity.getTransaction() );
+        bankDto.setDateTime( bankEntity.getDateTime() );
+        bankDto.setLimitExceeded( bankEntity.getLimitExceeded() );
+
+        return bankDto;
+    }
+
+    @Override
+    public BankEntity toBankEntity(BankDto bankDto) {
+        if ( bankDto == null ) {
+            return null;
+        }
+
+        BankEntity bankEntity = new BankEntity();
+
+        bankEntity.setId( bankDto.getId() );
+        bankEntity.setCategory( bankDto.getCategory() );
+        bankEntity.setLimitUSD( bankDto.getLimitUSD() );
+        bankEntity.setTransaction( bankDto.getTransaction() );
+        bankEntity.setDateTime( bankDto.getDateTime() );
+        bankEntity.setLimitExceeded( bankDto.getLimitExceeded() );
+
+        return bankEntity;
+    }
+}
